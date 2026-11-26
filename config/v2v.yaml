@@ -1,0 +1,15 @@
+# 兩台車用同一份設定。car_id 預設 0 = 依 ESP32 MAC 自動產生，所以不用分車改。
+v2v_bridge:
+  ros__parameters:
+    port: "auto"            # 自動找 /dev/serial/by-id/usb-Espressif*；要指定就填完整路徑
+    channel: 1              # ESP-NOW 頻道 1~13，兩台必須相同；避開現場 2.4GHz WiFi 最擠的頻道
+    group_id: 7             # 隊伍代號，兩台必須相同；別隊用不同值就收不到彼此
+    tx_power_qdbm: 60       # 0.25 dBm 單位：60 = 15 dBm，最大 78（19.5 dBm）
+    car_id: 0               # 0 = 自動；萬一兩台撞號（log 會報錯），其中一台改成 1~255 的其他值
+    send_rate: 30.0         # Hz
+    ping_rate: 2.0          # Hz
+    peer_timeout: 0.3       # 秒，超過沒收到對方 -> /v2v/peer_alive = false
+    map_frame: "map"
+    base_frame: "base_link"
+    odom_topic: "/odom"
+    # centerline_csv 由 launch 檔傳入（預設用工作區的 car_control waypoints.csv）
